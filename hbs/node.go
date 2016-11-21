@@ -1,8 +1,8 @@
 package hbs
 
 import (
-	"github.com/dinp/common/model"
-	"github.com/dinp/server/g"
+	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/server/g"
 	"time"
 )
 
