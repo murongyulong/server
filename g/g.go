@@ -1,7 +1,7 @@
 package g
 
 import (
-	"github.com/dinp/common/model"
+	"github.com/smartcaas/common/model"
 	"log"
 	"runtime"
 )
