@@ -2,8 +2,8 @@ package cron
 
 import (
 	"fmt"
-	"github.com/dinp/common/model"
-	"github.com/dinp/server/g"
+	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/server/g"
 	"github.com/garyburd/redigo/redis"
 	"log"
 	"time"
