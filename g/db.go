@@ -2,7 +2,7 @@ package g
 
 import (
 	"database/sql"
-	"github.com/dinp/common/model"
+	"github.com/smartcaas/common/model"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 )
