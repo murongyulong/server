@@ -3,7 +3,7 @@ package g
 import (
 	"encoding/json"
 	"github.com/toolkits/file"
-	"golang.org/x/net"
+	"github.com/toolkits/net"
 	"log"
 	"sync"
 )
