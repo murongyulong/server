@@ -2,9 +2,9 @@ package cron
 
 import (
 	"fmt"
-	"github.com/dinp/common/model"
-	"github.com/dinp/server/g"
-	"github.com/fsouza/go-dockerclient"
+	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/server/g"
+	"github.com/smartcaas/go-dockerclient"
 	"github.com/toolkits/slice"
 	"log"
 	"strings"
