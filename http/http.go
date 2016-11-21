@@ -3,8 +3,8 @@ package http
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/dinp/common/model"
-	"github.com/dinp/server/g"
+	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/server/g"
 	"log"
 	"net/http"
 )
