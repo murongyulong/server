@@ -1,7 +1,7 @@
 package cron
 
 import (
-	"github.com/dinp/server/g"
+	"github.com/smartcaas/server/g"
 	"time"
 )
 
