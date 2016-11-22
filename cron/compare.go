@@ -286,6 +286,9 @@ func DockerRun(app *model.App, ip string) {
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
+			HostConfig: {
+				PublishAllPorts: true,
+			},
 		},
 	}
 
