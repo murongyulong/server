@@ -286,10 +286,13 @@ func DockerRun(app *model.App, ip string) {
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
-			HostConfig: {
-				PublishAllPorts: true,
-			},
+			
 		},
+		HostConfig: &docker.HostConfig{
+		        PortBindings: map[docker.Port][]docker.PortBinding{
+			       "8080/tcp": []docker.PortBinding{docker.PortBinding{}},
+		        },
+	        },
 	}
 
 	container, err := client.CreateContainer(opts)
