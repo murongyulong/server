@@ -13,7 +13,7 @@ import (
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select id, name, memory, instance, image, status from app where status = 0 and image <> ''"
+	sql := "select appid, name, memory, instance, image, status from app where status = 0 and image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
