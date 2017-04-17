@@ -2,17 +2,18 @@ package cron
 
 import (
 	"fmt"
-	"github.com/smartcaas/common/model"
-	"github.com/smartcaas/server/g"
-	"github.com/smartcaas/go-dockerclient"
-	"github.com/toolkits/slice"
 	"log"
 	"strings"
 	"time"
+
+	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/go-dockerclient"
+	"github.com/smartcaas/server/g"
+	"github.com/toolkits/slice"
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select name, memory, instance, image, status from app where status = 0 and image <> ''"
+	sql := "select a.id, a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status from ysy_app a where a.app_status = 0 and a.app_image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
@@ -131,6 +132,7 @@ func compareState() {
 	}
 }
 
+//建立新的容器
 func createNewContainer(app *model.App, deployCnt int) {
 	if deployCnt == 0 {
 		return
@@ -286,13 +288,12 @@ func DockerRun(app *model.App, ip string) {
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
-			
 		},
 		HostConfig: &docker.HostConfig{
-		        PortBindings: map[docker.Port][]docker.PortBinding{
-			       "8080/tcp": []docker.PortBinding{docker.PortBinding{}},
-		        },
-	        },
+			PortBindings: map[docker.Port][]docker.PortBinding{
+				"8080/tcp": []docker.PortBinding{docker.PortBinding{}},
+			},
+		},
 	}
 
 	container, err := client.CreateContainer(opts)
