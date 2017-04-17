@@ -21,7 +21,7 @@ func SyncDomain() {
 }
 
 func syncDomain() {
-	_sql := "select d.domain, a.name from domain d,app a where a.id = d.appid and d.appid <> 0"
+	_sql := "select d.domain, a.name from domain d,app a where a.appid = d.appid and d.appid <> 0"
 	rows, err := g.DB.Query(_sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", _sql, err)
