@@ -29,8 +29,7 @@ func InitDbConnPool() {
 func LoadEnvVarsOf(appName string) (envVars map[string]string, err error) {
 	envVars = make(map[string]string)
 
-	sq := "select k, v from env where appid = (select appid from app where mame = ? limit 1)"
-
+	sq := "select env_key k, env_value v from ysy_env where app_id = (select id from ysy_app where app_mame = ? limit 1)"
 	var stmt *sql.Stmt
 	stmt, err = DB.Prepare(sq)
 	if err != nil {
@@ -66,7 +65,7 @@ func UpdateAppStatus(app *model.App, status int) error {
 		log.Printf("[INFO] udpate app: %s status to: %d", app.Name, status)
 	}
 
-	sq := "update (ysy_app) set app_status = ? where app_name = ?"
+	sq := "update ysy_app set app_status = ? where app_name = ?"
 	stmt, err := DB.Prepare(sq)
 	if err != nil {
 		log.Printf("[ERROR] prepare sql: %s fail: %v, params: [%d, %s]", sq, err, status, app.Name)
