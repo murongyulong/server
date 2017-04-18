@@ -29,7 +29,7 @@ func InitDbConnPool() {
 func LoadEnvVarsOf(appName string) (envVars map[string]string, err error) {
 	envVars = make(map[string]string)
 
-	sq := "select env_key k, env_value v from ysy_env where app_id = (select id from ysy_app where app_mame = ? limit 1)"
+	sq := "select env_key k, env_value v from ysy_env where app_id = (select id from ysy_app where app_name = ? limit 1)"
 	var stmt *sql.Stmt
 	stmt, err = DB.Prepare(sq)
 	if err != nil {
