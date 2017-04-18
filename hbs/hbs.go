@@ -2,7 +2,7 @@ package hbs
 
 import (
 	"fmt"
-	"github.com/murongyulong/server/g"
+	"github.com/smartcaas/server/g"
 	"log"
 	"net"
 	"net/rpc"
