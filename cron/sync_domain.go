@@ -2,7 +2,7 @@ package cron
 
 import (
 	"fmt"
-	"github.com/smartcaas/server/g"
+	"github.com/murongyulong/server/g"
 	"log"
 	"time"
 )
