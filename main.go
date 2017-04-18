@@ -3,10 +3,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/murongyulong/server/cron"
-	"github.com/murongyulong/server/g"
-	"github.com/murongyulong/server/hbs"
-	"github.com/murongyulong/server/http"
+	"github.com/smartcaas/server/cron"
+	"github.com/smartcaas/server/g"
+	"github.com/smartcaas/server/hbs"
+	"github.com/smartcaas/server/http"
 	"os"
 )
 
