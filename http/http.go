@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/smartcaas/common/model"
-	"github.com/murongyulong/server/g"
+	"github.com/smartcaas/server/g"
 	"log"
 	"net/http"
 )
