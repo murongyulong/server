@@ -8,7 +8,7 @@ import (
 
 	"github.com/smartcaas/common/model"
 	"github.com/smartcaas/go-dockerclient"
-	"github.com/murongyulong/server/g"
+	"github.com/smartcaas/server/g"
 	"github.com/toolkits/slice"
 )
 
