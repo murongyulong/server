@@ -2,7 +2,7 @@ package hbs
 
 import (
 	"github.com/smartcaas/common/model"
-	"github.com/murongyulong/server/g"
+	"github.com/smartcaas/server/g"
 	"time"
 )
 
