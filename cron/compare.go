@@ -328,7 +328,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"8080/tcp": []docker.PortBinding{docker.PortBinding{}},
+			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
