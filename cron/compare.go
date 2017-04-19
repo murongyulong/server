@@ -281,7 +281,7 @@ func DockerRun(app *model.App, ip string) {
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
-				docker.Port("8080/tcp"): {},
+				docker.Port("80/tcp"): {},
 			},
 			Image:        app.Image,
 			AttachStdin:  false,
@@ -291,7 +291,7 @@ func DockerRun(app *model.App, ip string) {
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				"8080/tcp": []docker.PortBinding{docker.PortBinding{}},
+				"80/tcp": []docker.PortBinding{docker.PortBinding{}},
 			},
 		},
 	}
