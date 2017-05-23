@@ -1,7 +1,7 @@
 package g
 
 import (
-	"github.com/murongyulong/common/model"
+	"github.com/murongyulong/common/tree/master/model"
 	"log"
 	"sort"
 	"sync"
