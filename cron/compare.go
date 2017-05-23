@@ -291,7 +291,6 @@ func DockerRun(app *model.App, ip string) {
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
 			WorkingDir:	  "",
-			Mounts:		  [],
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
