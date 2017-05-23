@@ -6,14 +6,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/smartcaas/common/model"
-	"github.com/smartcaas/go-dockerclient"
+	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
+	"github.com/smartcaas/go-dockerclient"
 	"github.com/toolkits/slice"
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status from ysy_app a where a.app_status = 0 and a.app_image <> ''"
+	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount from ysy_app a where a.app_status = 0 and a.app_image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
@@ -23,7 +23,7 @@ func getDesiredState() (map[string]*model.App, error) {
 	var desiredState = make(map[string]*model.App)
 	for rows.Next() {
 		var app model.App
-		err = rows.Scan(&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status)
+		err = rows.Scan(&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status, &app.Port, &app.Mount)
 		if err != nil {
 			log.Printf("[ERROR] %s scan fail: %s", sql, err)
 			return nil, err
@@ -276,22 +276,26 @@ func DockerRun(app *model.App, ip string) {
 		log.Println("[ERROR] docker.NewClient fail:", err)
 		return
 	}
+	//动态加载用户指定端口
+	port := fmt.Sprintf("%s/tcp", app.Port)
 
 	opts := docker.CreateContainerOptions{
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
-				docker.Port("80/tcp"): {},
+				docker.Port(port): {},
 			},
 			Image:        app.Image,
 			AttachStdin:  false,
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
+			WorkingDir:	  "",
+			Mounts:		  [],
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+				port: []docker.PortBinding{docker.PortBinding{}},
 			},
 		},
 	}
@@ -328,7 +332,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+			port: []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
