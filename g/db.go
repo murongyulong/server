@@ -2,7 +2,7 @@ package g
 
 import (
 	"database/sql"
-	"github.com/murongyulong/model"
+	"github.com/murongyulong/common/tree/master/model"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 )
