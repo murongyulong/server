@@ -1,7 +1,7 @@
 package g
 
 import (
-	"github.com/smartcaas/common/model"
+	"github.com/murongyulong/common/model"
 	"log"
 	"runtime"
 )
