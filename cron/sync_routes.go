@@ -2,7 +2,7 @@ package cron
 
 import (
 	"fmt"
-	"github.com/murongyulong/common/tree/master/model"
+	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"github.com/garyburd/redigo/redis"
 	"log"
