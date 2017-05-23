@@ -2,7 +2,7 @@ package g
 
 import (
 	"database/sql"
-	"github.com/smartcaas/common/model"
+	"github.com/smartcaas/murongyulong/model"
 	_ "github.com/go-sql-driver/mysql"
 	"log"
 )
