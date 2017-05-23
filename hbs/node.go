@@ -1,7 +1,7 @@
 package hbs
 
 import (
-	"github.com/murongyulong/common/tree/master/model"
+	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"time"
 )
