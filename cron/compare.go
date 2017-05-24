@@ -283,7 +283,7 @@ func DockerRun(app *model.App, ip string) {
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
-				docker.Port("80/tcp"): {},
+				docker.Port(port): {},
 			},
 			Image:        app.Image,
 			AttachStdin:  false,
@@ -294,7 +294,7 @@ func DockerRun(app *model.App, ip string) {
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+				port: []docker.PortBinding{docker.PortBinding{}},
 			},
 		},
 	}
@@ -331,7 +331,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+			port: []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
