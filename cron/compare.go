@@ -278,8 +278,8 @@ func DockerRun(app *model.App, ip string) {
 	}
 	//动态加载用户指定端口
 	//port := fmt.Sprintf("%s/tcp", app.Port)
-	var port string = ""
-	port = fmt.Sprintf("%s/tcp", app.Port)
+	type Port string
+	Port port= fmt.Sprintf("%s/tcp", app.Port)
 
 	opts := docker.CreateContainerOptions{
 		Config: &docker.Config{
