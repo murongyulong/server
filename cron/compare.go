@@ -295,7 +295,7 @@ func DockerRun(app *model.App, ip string) {
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				docker.Port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
+				"8080/tcp": []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
 		},
 	}
@@ -332,7 +332,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			docker.Port: []docker.PortBinding{docker.PortBinding{}},
+			"8081/tcp": []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
