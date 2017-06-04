@@ -277,9 +277,9 @@ func DockerRun(app *model.App, ip string) {
 		return
 	}
 	//动态加载用户指定端口
-	//port := fmt.Sprintf("%s/tcp", app.Port)
+	port := fmt.Sprintf("%s/tcp", app.Port)
         //port := "80/tcp"
-	p Port = fmt.Sprintf("%s/tcp", app.Port)
+	//p Port = fmt.Sprintf("%s/tcp", app.Port)
 
 	opts := docker.CreateContainerOptions{
 		Config: &docker.Config{
@@ -296,7 +296,7 @@ func DockerRun(app *model.App, ip string) {
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				"80/tcp": []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
+				docker.Portofp(port): []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
 		},
 	}
@@ -333,7 +333,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+			docker.Portofp(port): []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
