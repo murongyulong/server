@@ -249,6 +249,8 @@ func ParseRepositoryTag(repos string) (string, string) {
 	return repos, ""
 }
 
+type Port string
+
 func DockerRun(app *model.App, ip string) {
 	if g.Config().Debug {
 		log.Printf("create container. app:%s, ip:%s\n", app.Name, ip)
