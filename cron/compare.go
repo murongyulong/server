@@ -291,7 +291,7 @@ func DockerRun(app *model.App, ip string) {
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
 			Volumes: map[string]struct{}{
-				"",
+				"/root/dinp/data/server",
 			},
 		},
 		HostConfig: &docker.HostConfig{
