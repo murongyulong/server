@@ -277,25 +277,26 @@ func DockerRun(app *model.App, ip string) {
 		return
 	}
 	//动态加载用户指定端口
-	//var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
+	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	
 	opts := docker.CreateContainerOptions{
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
-				docker.Port("80/tcp"): {},
+				docker.Port(port): {},
 			},
 			Image:        app.Image,
 			AttachStdin:  false,
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
-			WorkingDir:	  "",
-			Volumes:	"/root/dinp/data/server",
+			Volumes: map[string]struct{}{
+				"",
+			},
 		},
 		HostConfig: &docker.HostConfig{
-			PortBindings: map[docker.Port][]docker.PortBinding{
-				"80/tcp": []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
+			PortBindings: map[string][]docker.PortBinding{
+				port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
 		},
 	}
@@ -331,8 +332,9 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
-		PortBindings: map[docker.Port][]docker.PortBinding{
-			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
+		//PortBindings: map[docker.Port][]docker.PortBinding{
+		PortBindings: map[string][]docker.PortBinding{
+			port: []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
