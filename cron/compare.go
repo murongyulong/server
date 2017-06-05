@@ -249,8 +249,6 @@ func ParseRepositoryTag(repos string) (string, string) {
 	return repos, ""
 }
 
-type Port string
-
 func DockerRun(app *model.App, ip string) {
 	if g.Config().Debug {
 		log.Printf("create container. app:%s, ip:%s\n", app.Name, ip)
@@ -279,16 +277,13 @@ func DockerRun(app *model.App, ip string) {
 		return
 	}
 	//动态加载用户指定端口
-	var port Port = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
-	//port := fmt.Sprintf("%s/tcp", app.Port)
-        //port := "80/tcp"
-	//p Port = fmt.Sprintf("%s/tcp", app.Port)
-
+	//var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
+	
 	opts := docker.CreateContainerOptions{
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
-				docker.Port(port): {},
+				docker.Port("80/tcp"): {},
 			},
 			Image:        app.Image,
 			AttachStdin:  false,
@@ -296,10 +291,11 @@ func DockerRun(app *model.App, ip string) {
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
 			WorkingDir:	  "",
+			Volumes:	"/root/dinp/data/server",
 		},
 		HostConfig: &docker.HostConfig{
 			PortBindings: map[docker.Port][]docker.PortBinding{
-				port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
+				"80/tcp": []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
 		},
 	}
@@ -336,7 +332,7 @@ func DockerRun(app *model.App, ip string) {
 
 	err = client.StartContainer(container.ID, &docker.HostConfig{
 		PortBindings: map[docker.Port][]docker.PortBinding{
-			port: []docker.PortBinding{docker.PortBinding{}},
+			"80/tcp": []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
 
