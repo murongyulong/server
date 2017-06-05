@@ -280,6 +280,7 @@ func DockerRun(app *model.App, ip string) {
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	
 	opts := docker.CreateContainerOptions{
+		Name:app.Name
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
