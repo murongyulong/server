@@ -65,7 +65,7 @@ func UpdateAppStatus(app *model.App, status int) error {
 		log.Printf("[INFO] udpate app: %s status to: %d", app.Name, status)
 	}
 
-	sq := "update ysy_app set app_status = '1' where app_name = ?"
+	sq := "update ysy_app set app_status = '1' where app_name = '"+app.Name+"'"
 	stmt, err := DB.Prepare(sq)
 	if err != nil {
 		log.Printf("[ERROR] prepare sql: %s fail: %v, params: [%d, %s]", sq, err, status, app.Name)
