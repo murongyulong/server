@@ -278,7 +278,7 @@ func DockerRun(app *model.App, ip string) {
 	}
 	//动态加载用户指定端口
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
-	binds := []string{"/root/dinp/data/tipask:/app/data"}
+	binds := []string{app.Mount}
 	
 	opts := docker.CreateContainerOptions{
 		Name:app.Name,
