@@ -278,6 +278,7 @@ func DockerRun(app *model.App, ip string) {
 	}
 	//动态加载用户指定端口
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
+	binds := []string{"/root/dinp/data/tipask:/app/data"}
 	
 	opts := docker.CreateContainerOptions{
 		Name:app.Name,
@@ -293,7 +294,7 @@ func DockerRun(app *model.App, ip string) {
 			Env:          BuildEnvArray(envVars),
 		},
 		HostConfig: &docker.HostConfig{
-			Binds: {"/root/dinp/data/tipask:/app/data"},
+			Binds: binds[0],
 			PortBindings: map[string][]docker.PortBinding{
 				port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
