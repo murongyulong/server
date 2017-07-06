@@ -153,7 +153,6 @@ func createNewContainer(app *model.App, deployCnt int) {
 
 	for ip, count := range ip_count {
 		for k := 0; k < count; k++ {
-			app.Name = app.Name + fmt.Sprintf("%d", k)
 			DockerRun(app, ip)
 		}
 	}
@@ -282,7 +281,7 @@ func DockerRun(app *model.App, ip string) {
 	binds := []string{app.Mount}
 	
 	opts := docker.CreateContainerOptions{
-		Name:app.Name,
+		//Name:app.Name,
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
