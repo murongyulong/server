@@ -153,7 +153,7 @@ func createNewContainer(app *model.App, deployCnt int) {
 
 	for ip, count := range ip_count {
 		for k := 0; k < count; k++ {
-			app.Name = app.Name + k
+			app.Name = app.Name + fmt.Sprintf("%d", k)
 			DockerRun(app, ip)
 		}
 	}
