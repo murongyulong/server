@@ -64,7 +64,7 @@ func UpdateAppStatus(app *model.App, status int) error {
 	if Config().Debug {
 		log.Printf("[INFO] udpate app: %s status to: %d", app.Name, status)
 	}
-
+	log.Printf("[INFO] udpate app: %s status to: %d", app.Name, status)
 	sq := "update ysy_app set app_status = ? where app_name = ?"
 	stmt, err := DB.Prepare(sq)
 	if err != nil {
