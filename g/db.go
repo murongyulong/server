@@ -65,7 +65,7 @@ func UpdateAppStatus(app *model.App, status int) error {
 		log.Printf("[INFO] udpate app: %s status to: %d", app.Name, status)
 	}
 
-	sq := "UPDATE zhuangxiudb.ysy_app SET app_status=? WHERE app_name = ?"
+	sq := "UPDATE zhuangxiudb.ysy_app SET app_status = ? WHERE app_name = ?"
 	stmt, err := DB.Prepare(sq)
 	if err != nil {
 		log.Printf("[ERROR] prepare sql: %s fail: %v, params: [%d, %s]", sq, err, status, app.Name)
@@ -73,7 +73,7 @@ func UpdateAppStatus(app *model.App, status int) error {
 	}
 	defer stmt.Close()
 
-	_, err = stmt.Exec(status, app.Name)
+	_, err = stmt.Exec(1, app.Name)
 	if err != nil {
 		log.Printf("[ERROR] exec sql: %s fail: %v, params: [%d, %s]", sq, err, status, app.Name)
 		return err
