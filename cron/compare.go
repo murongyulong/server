@@ -12,7 +12,6 @@ import (
 	"github.com/murongyulong/go-dockerclient"
 	"github.com/toolkits/slice"
 )
-var temp = 0
 
 func getDesiredState() (map[string]*model.App, error) {
 	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount from ysy_app a where a.app_status = 0 and a.app_image <> ''"
@@ -154,11 +153,7 @@ func createNewContainer(app *model.App, deployCnt int) {
 	}
 
 	for ip, count := range ip_count {
-		temp = 0
 		for k := 0; k < count; k++ {
-			app.Name = app.Name + strconv.Itoa(temp)
-			log.Println(app.Name)
-			temp++
 			DockerRun(app, ip)
 		}
 	}
