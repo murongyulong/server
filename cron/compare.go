@@ -282,7 +282,7 @@ func DockerRun(app *model.App, ip string) {
 	binds := []string{app.Mount}
 	
 	opts := docker.CreateContainerOptions{
-		Name:app.Name,
+		//Name:app.Name,
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
@@ -348,5 +348,23 @@ func DockerRun(app *model.App, ip string) {
 	if g.Config().Debug {
 		log.Println("start container success:-)")
 	}
+	
+	realNames := g.RealState.Keys()
 
+	for name := range realNames {
+		sq := "INSERT INTO ysy_app(ysy_temp) values(?)"
+		stmt, err := DB.Prepare(sq)
+		if err != nil {
+			log.Printf("[ERROR] prepare sql: %s fail: %v, params: [%s]", sq, err, name)
+			return err
+		}
+		defer stmt.Close()
+
+		_, err = stmt.Exec(name)
+		if err != nil {
+			log.Printf("[ERROR] exec sql: %s fail: %v, params: [%s]", sq, err, name)
+			return err
+		}
+		continue
+	}
 }
