@@ -348,23 +348,4 @@ func DockerRun(app *model.App, ip string) {
 	if g.Config().Debug {
 		log.Println("start container success:-)")
 	}
-	
-	realNames := g.RealState.Keys()
-
-	for name := range realNames {
-		sq := "UPDATE zhuangxiudb.ysy_app SET ysy_temp=? WHERE app_name = ?"
-		stmt, err := DB.Prepare(sq)
-		if err != nil {
-			log.Printf("[ERROR] prepare sql: %s fail: %v, params: [%s]", sq, err, name)
-			return err
-		}
-		defer stmt.Close()
-
-		_, err = stmt.Exec(name,app.Name)
-		if err != nil {
-			log.Printf("[ERROR] exec sql: %s fail: %v, params: [%s]", sq, err, name)
-			return err
-		}
-		continue
-	}
 }
