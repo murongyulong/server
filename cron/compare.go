@@ -13,7 +13,7 @@ import (
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount from ysy_app a where a.app_status = 0 and a.app_image <> ''"
+	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount, a.app_application app from ysy_app a where a.app_status = 0 and a.app_image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
@@ -279,6 +279,7 @@ func DockerRun(app *model.App, ip string) {
 	//动态加载用户指定端口
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	binds := []string{app.Mount}
+	links := []string{app.app}
 	
 	opts := docker.CreateContainerOptions{
 		//Name:app.Name,
@@ -298,6 +299,7 @@ func DockerRun(app *model.App, ip string) {
 			PortBindings: map[string][]docker.PortBinding{
 				port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
+			Links:	links
 		},
 	}
 
