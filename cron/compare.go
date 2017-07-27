@@ -13,7 +13,7 @@ import (
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount, a.app_application app from ysy_app a where a.app_status = 0 and a.app_image <> ''"
+	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount, a.app_temp app from ysy_app a where a.app_status = 0 and a.app_image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil {
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
@@ -23,7 +23,7 @@ func getDesiredState() (map[string]*model.App, error) {
 	var desiredState = make(map[string]*model.App)
 	for rows.Next() {
 		var app model.App
-		err = rows.Scan(&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status, &app.Port, &app.Mount)
+		err = rows.Scan(&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status, &app.Port, &app.Mount, &app.App)
 		if err != nil {
 			log.Printf("[ERROR] %s scan fail: %s", sql, err)
 			return nil, err
@@ -279,7 +279,7 @@ func DockerRun(app *model.App, ip string) {
 	//动态加载用户指定端口
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	binds := []string{app.Mount}
-	links := []string{app.app}
+	links := []string{app.App}
 	
 	opts := docker.CreateContainerOptions{
 		//Name:app.Name,
