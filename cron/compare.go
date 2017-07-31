@@ -5,7 +5,6 @@ import (
 	"log"
 	"strings"
 	"time"
-	"strconv"
 	
 	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
@@ -293,8 +292,8 @@ func DockerRun(app *model.App, ip string) {
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
-			CPUShares:    strconv.ParseInt(app.appCpushares, 10, 64),
-			CPUSet: app.appCpuset,
+			CPUShares:    int64(app.CPUShares),
+			CPUSet: app.CPUSet,
 		},
 		HostConfig: &docker.HostConfig{
 			Binds: binds,
