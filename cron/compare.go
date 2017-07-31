@@ -293,6 +293,8 @@ func DockerRun(app *model.App, ip string) {
 			AttachStdout: false,
 			AttachStderr: false,
 			Env:          BuildEnvArray(envVars),
+			CPUShares: int64(app.appCpushares),
+			CPUSet: app.appCpuset,
 		},
 		HostConfig: &docker.HostConfig{
 			Binds: binds,
