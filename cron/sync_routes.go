@@ -65,7 +65,12 @@ func _syncOneApp(rc redis.Conn, appName string, app *model.SafeApp) error {
 
 	args := []interface{}{uriKey}
 	for _, c := range cs {
-		args = append(args, fmt.Sprintf("%s:%d", c.Ip, c.Ports[0].PublicPort))
+		log.Printf("%s:%d", c.Ip, c.Ports[0].PublicPort)
+		if(c.Ports[0].PublicPort !=0){
+			args = append(args, fmt.Sprintf("%s:%d", c.Ip, c.Ports[0].PublicPort))
+		}else{
+			continue
+		}
 	}
 
 	if debug {
