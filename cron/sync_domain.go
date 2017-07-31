@@ -74,6 +74,7 @@ func syncDomain() {
 		if debug {
 			log.Printf("[Redis] SET %s %s", cname, uriKey)
 		}
+		log.Printf("[Redis] SET %s %s", cname, uriKey)
 		rc.Send("SET", cname, uriKey)
 		DomainsToUpdate[d] = false
 	}
