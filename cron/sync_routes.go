@@ -30,6 +30,7 @@ func syncRoutes() {
 	}
 
 	for _, name := range realNames {
+		log.Printf("name: %s", name)
 		sa, _ := g.RealState.GetSafeApp(name)
 		if !sa.IsNeedUpdateRouter() {
 			continue
@@ -72,7 +73,7 @@ func _syncOneApp(rc redis.Conn, appName string, app *model.SafeApp) error {
 			continue
 		}
 	}
-
+	log.Printf("[Redis] LPUSH %v", args)
 	if debug {
 		log.Printf("[Redis] LPUSH %v", args)
 	}
