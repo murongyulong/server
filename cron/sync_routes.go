@@ -8,6 +8,7 @@ import (
 	"log"
 	"time"
 )
+var temp = 0
 
 func SyncRoutes() {
 	duration := time.Duration(g.Config().Interval) * time.Second
@@ -68,12 +69,13 @@ func _syncOneApp(rc redis.Conn, appName string, app *model.SafeApp) error {
 	for _, c := range cs {
 		if(c.Ports[0].PublicPort !=0){
 			log.Printf("%s:%d", c.Ip, c.Ports[0].PublicPort)
+			temp = c.Ports[0].PublicPort
 			args = append(args, fmt.Sprintf("%s:%d", c.Ip, c.Ports[0].PublicPort))
 		}else{
-			continue
+			args = append(args, fmt.Sprintf("%s:%d", c.Ip, temp))
+			//continue
 		}
 	}
-	log.Printf("[Redis] LPUSH %v", args)
 	if debug {
 		log.Printf("[Redis] LPUSH %v", args)
 	}
