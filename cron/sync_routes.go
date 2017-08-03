@@ -31,7 +31,6 @@ func syncRoutes() {
 	}
 
 	for _, name := range realNames {
-		log.Printf("name: %s", name)
 		sa, _ := g.RealState.GetSafeApp(name)
 		if !sa.IsNeedUpdateRouter() {
 			continue
@@ -67,8 +66,8 @@ func _syncOneApp(rc redis.Conn, appName string, app *model.SafeApp) error {
 
 	args := []interface{}{uriKey}
 	for _, c := range cs {
+		log.Printf("args: %v", args)
 		if(c.Ports[0].PublicPort !=0){
-			log.Printf("%s:%d", c.Ip, c.Ports[0].PublicPort)
 			temp = c.Ports[0].PublicPort
 			args = append(args, fmt.Sprintf("%s:%d", c.Ip, c.Ports[0].PublicPort))
 		}else{
