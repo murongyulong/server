@@ -13,7 +13,7 @@ import (
 )
 
 func getDesiredState() (map[string]*model.App, error) {
-	sql := "select a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount, a.app_cpushares cpushares from ysy_app a where a.app_status = 0 and a.app_image <> ''"
+	sql := "select a.app_id id a.app_name name, a.app_memory memory, a.app_instance instance, a.app_image image, a.app_status status, a.app_port port, a.app_mount mount, a.app_cpushares cpushares from ysy_app a where a.app_status = 0 and a.app_image <> ''"
 	rows, err := g.DB.Query(sql)
 	if err != nil { 
 		log.Printf("[ERROR] exec %s fail: %s", sql, err)
@@ -303,7 +303,19 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-
+stmt, err := db.Prepare("insert into ysy_app_container(app_id,con_id,con_name,con_port)values(?,?,?,?)")
+	if err != nil {
+    log.Println(err)
+	}
+	log.Println("实体:"+container);
+	rs, err := stmt.Exec(app.Id, container.ID,container.Name,container.Port)
+	if err != nil {
+    log.Println(err)
+	}
+	if err != nil { 
+		log.Printf("[ERROR] exec %s fail: %s", sql, err)
+		return nil, err
+	}
 	if err != nil {
 		if err == docker.ErrNoSuchImage {
 			repos, tag := ParseRepositoryTag(app.Image)
