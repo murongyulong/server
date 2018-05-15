@@ -23,7 +23,7 @@ func getDesiredState() (map[string]*model.App, error) {
 	var desiredState = make(map[string]*model.App)
 	for rows.Next() {
 		var app model.App
-		err = rows.Scan(&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status, &app.Port, &app.Mount, &app.CPUShares)
+		err = rows.Scan(&app.Id,&app.Name, &app.Memory, &app.InstanceCnt, &app.Image, &app.Status, &app.Port, &app.Mount, &app.CPUShares)
 		if err != nil {
 			log.Printf("[ERROR] %s scan fail: %s", sql, err)
 			return nil, err
@@ -303,13 +303,13 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-stmt, err := g.DB.Prepare("insert into ysy_app_container(app_id,con_id,con_name)values(?,?,?)")
+stmt, err := g.DB.Prepare("insert into ysy_app_container(app_id,con_id,con_name,con_volume)values(?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	rs, err := stmt.Exec(app.Id, container.ID,container.Name)
+	rs, err := stmt.Exec(app.Id, container.ID,container.Name,app.Mount)
 	affect, err := rs.RowsAffected()
 	log.Println("affect", affect)
 	if err != nil {
