@@ -303,18 +303,19 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-stmt, err := db.Prepare("insert into ysy_app_container(app_id,con_id,con_name,con_port)values(?,?,?,?)")
+stmt, err := g.DB.Prepare("insert into ysy_app_container(app_id,con_id,con_name)values(?,?,?)")
 	if err != nil {
     log.Println(err)
 	}
-	log.Println("实体:"+container);
-	rs, err := stmt.Exec(app.Id, container.ID,container.Name,container.Port)
+	log.Println("container.Name", container.Name)
+	log.Println("container.ID", container.ID)
+	rs, err := stmt.Exec(app.Id, container.ID,container.Name)
 	if err != nil {
     log.Println(err)
 	}
 	if err != nil { 
-		log.Printf("[ERROR] exec %s fail: %s", sql, err)
-		return nil, err
+		log.Printf("[ERROR] exec %s fail: %s", err)
+		return 
 	}
 	if err != nil {
 		if err == docker.ErrNoSuchImage {
