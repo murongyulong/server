@@ -309,7 +309,9 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(app_id,con_id,con_name)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	 err := stmt.Exec(app.Id, container.ID,container.Name)
+	rs, err := stmt.Exec(app.Id, container.ID,container.Name)
+	affect, err := rs.RowsAffected()
+	log.Println("affect", affect)
 	if err != nil {
    	 log.Println(err)
 	}
