@@ -325,7 +325,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 		if err != nil {
    	 log.Println(err)
 	}
-    fmt.Println(ins_id)
+    fmt.Println(affect)
 	if err != nil {
    	 log.Println(err)
 	}
