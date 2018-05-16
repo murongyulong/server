@@ -310,14 +310,22 @@ func DockerRun(app *model.App, ip string) {
 	for i := 0; i < 32; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	
+	log.Println("result", string(result))
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume)values(?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	stmt.Exec(string(result),app.Id, container.ID,container.Name,app.Mount)
+	res,err:= stmt.Exec(string(result),app.Id, container.ID,container.Name,app.Mount)
+	if err != nil {
+   	 log.Println(err)
+	}
+	 affect, err := res.RowsAffected()  
+		if err != nil {
+   	 log.Println(err)
+	}
+    fmt.Println(ins_id);
 	if err != nil {
    	 log.Println(err)
 	}
