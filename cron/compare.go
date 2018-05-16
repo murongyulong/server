@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 	"time"
-	
+	"math/rand"
 	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"github.com/murongyulong/go-dockerclient"
@@ -303,15 +303,21 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-stmt, err := g.DB.Prepare("insert into ysy_app_container(app_id,con_id,con_name,con_volume)values(?,?,?,?)")
+	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	bytes := []byte(str)
+	result := []byte{}
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 32; i++ {
+		result = append(result, bytes[r.Intn(len(bytes))])
+	}
+	
+stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume)values(?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	rs, err := stmt.Exec(app.Id, container.ID,container.Name,app.Mount)
-	affect, err := rs.RowsAffected()
-	log.Println("affect", affect)
+	stmt.Exec(string(result),app.Id, container.ID,container.Name,app.Mount)
 	if err != nil {
    	 log.Println(err)
 	}
