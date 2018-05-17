@@ -299,7 +299,7 @@ func DockerRun(app *model.App, ip string) {
 	for i := 0; i < 3; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	app.Name:=app.Name+string(result)
+	name:=app.Name+string(result)
 		log.Println("app.Name", app.Name)
 	opts := docker.CreateContainerOptions{
 		Name:app.Name,
@@ -324,21 +324,20 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	bytes := []byte(str)
-	result := []byte{}
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	bytess := []byte(str)
+	res := []byte{}
+	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < 32; i++ {
-		result = append(result, bytes[r.Intn(len(bytes))])
+		res = append(res, bytes[ra.Intn(len(bytess))])
 	}
-	log.Println("result", string(result))
+	log.Println("result", string(res))
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume)values(?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	res,err:= stmt.Exec(string(result),app.Id, container.ID,container.Name,app.Mount)
+	res,err:= stmt.Exec(string(res),app.Id, container.ID,name,app.Mount)
 	if err != nil {
    	 log.Println(err)
 	}
