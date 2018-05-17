@@ -214,7 +214,20 @@ func dropContainer(c *model.Container) {
 		log.Println("docker.RemoveContainer fail:", err)
 		return
 	}
-
+stmt, err := g.DB.Prepare("delete  from  ysy_app_container where app_id =?")
+	if err != nil {
+   	 log.Println(err)
+	}
+	log.Println("c.Id", c.Id)
+	res,err:= stmt.Exec(c.Id)
+	if err != nil {
+   	 log.Println(err)
+	}
+	 affect, err := res.RowsAffected()  
+		if err != nil {
+   	 log.Println(err)
+	}
+    fmt.Println(affect)
 	// remember to delete real state map item
 	sa, exists := g.RealState.GetSafeApp(c.AppName)
 	if exists {
