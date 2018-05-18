@@ -325,19 +325,19 @@ func DockerRun(app *model.App, ip string) {
 
 	container, err := client.CreateContainer(opts)
 	bytess := []byte(str)
-	res := []byte{}
+	res1 := []byte{}
 	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < 32; i++ {
-		res = append(res, bytes[ra.Intn(len(bytess))])
+		res1 = append(res1, bytes[ra.Intn(len(bytess))])
 	}
-	log.Println("result", string(res))
+	log.Println("result", string(res1))
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume)values(?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	res,err:= stmt.Exec(string(res),app.Id, container.ID,name,app.Mount)
+	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,app.Mount)
 	if err != nil {
    	 log.Println(err)
 	}
