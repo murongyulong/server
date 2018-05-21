@@ -291,18 +291,20 @@ func DockerRun(app *model.App, ip string) {
 	}
 	//动态加载用户指定端口
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
-	binds := []string{app.Mount}
-	str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	
+       str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	bytes := []byte(str)
 	result := []byte{}
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < 3; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
+	mount=app.Mount+string(result)
+	binds := []string{mount}
 	name:=app.Name+string(result)
-		log.Println("app.Name", app.Name)
+		log.Println("app.Name", name)
 	opts := docker.CreateContainerOptions{
-		Name:app.Name,
+		Name:name,
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
