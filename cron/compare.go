@@ -293,14 +293,7 @@ func DockerRun(app *model.App, ip string) {
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	
        str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	bytes := []byte(str)
-	result := []byte{}
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 3; i++ {
-		result = append(result, bytes[r.Intn(len(bytes))])
-	}
-	mount:=app.Mount+string(result)
-	binds := []string{mount}
+	binds := []string{app.Mount}
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
 	opts := docker.CreateContainerOptions{
@@ -339,7 +332,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,mount,"1")
+	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,app.Mount,"1")
 	if err != nil {
    	 log.Println(err)
 	}
