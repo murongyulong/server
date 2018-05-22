@@ -333,13 +333,13 @@ func DockerRun(app *model.App, ip string) {
 		res1 = append(res1, bytes[ra.Intn(len(bytess))])
 	}
 	log.Println("result", string(res1))
-stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume)values(?,?,?,?,?)")
+stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume,con_port)values(?,?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,mount)
+	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,mount,"1")
 	if err != nil {
    	 log.Println(err)
 	}
