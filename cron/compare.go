@@ -299,7 +299,7 @@ func DockerRun(app *model.App, ip string) {
 	for i := 0; i < 3; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	mount=app.Mount+string(result)
+	mount:=app.Mount+string(result)
 	binds := []string{mount}
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
