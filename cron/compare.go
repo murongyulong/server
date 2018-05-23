@@ -293,6 +293,12 @@ func DockerRun(app *model.App, ip string) {
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	
        str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	byte := []byte(str)
+	result := []byte{}
+	ran := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 3; i++ {
+		result = append(result, bytes[ran.Intn(len(bytes))])
+	}
 	binds := []string{app.Mount}
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
