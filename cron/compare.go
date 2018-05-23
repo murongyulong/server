@@ -303,10 +303,10 @@ func DockerRun(app *model.App, ip string) {
 	res1 := []byte{}
 	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := 0; i < 32; i++ {
-		res1 = append(res1, byte[ra.Intn(len(bytess))])
+		res1 = append(res1, bytess[ra.Intn(len(bytess))])
 	}
 	for i := 0; i < 3; i++ {
-		result = append(result, byte[ra.Intn(len(bytess))])
+		result = append(result, bytess[ra.Intn(len(bytess))])
 	}
 	
 	binds := []string{app.Mount}
