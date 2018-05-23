@@ -293,12 +293,22 @@ func DockerRun(app *model.App, ip string) {
 	var port string = fmt.Sprintf("%s/tcp", app.Port) //其实就是字符串类型
 	
        str := "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	bytes := []byte(str)
+	//bytes := []byte(str)
 	result := []byte{}
-	ran := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 3; i++ {
-		result = append(result, byte[ran.Intn(len(bytes))])
+	//ran := rand.New(rand.NewSource(time.Now().UnixNano()))
+	//for i := 0; i < 3; i++ {
+	//	result = append(result, byte[ran.Intn(len(bytes))])
+	//}
+		bytess := []byte(str)
+	res1 := []byte{}
+	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
+	for i := 0; i < 32; i++ {
+		res1 = append(res1, byte[ra.Intn(len(bytess))])
 	}
+	for i := 0; i < 3; i++ {
+		result = append(result, byte[ra.Intn(len(bytess))])
+	}
+	
 	binds := []string{app.Mount}
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
@@ -325,12 +335,12 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-	bytess := []byte(str)
-	res1 := []byte{}
-	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
-	for i := 0; i < 32; i++ {
-		res1 = append(res1, byte[ra.Intn(len(bytess))])
-	}
+//	bytess := []byte(str)
+//	res1 := []byte{}
+//	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
+//	for i := 0; i < 32; i++ {
+//		res1 = append(res1, byte[ra.Intn(len(bytess))])
+//	}
 	log.Println("result", string(res1))
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume,con_port)values(?,?,?,?,?,?)")
 	if err != nil {
