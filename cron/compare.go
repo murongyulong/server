@@ -214,7 +214,7 @@ func dropContainer(c *model.Container) {
 		log.Println("docker.RemoveContainer fail:", err)
 		return
 	}
-stmt, err := g.DB.Prepare("delete  from  ysy_app_container where app_id =?")
+stmt, err := g.DB.Prepare("delete  from  ysy_app_container where con_id =?")
 	if err != nil {
    	 log.Println(err)
 	}
@@ -348,7 +348,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	}
 	log.Println("container.Name", container.Name)
 	log.Println("container.ID", container.ID)
-	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,app.Mount,"1")
+	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,app.Mount,"0")
 	if err != nil {
    	 log.Println(err)
 	}
