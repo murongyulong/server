@@ -346,8 +346,11 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	if err != nil {
    	 log.Println(err)
 	}
-	log.Println("result1", string(res1))
-	log.Println("result2", string(res1))
+	log.Println("app.Id", app.Id)
+	log.Println("container.ID",container.ID)
+	log.Println("name",name)
+	log.Println("app.Mount",app.Mount)
+	log.Println("0","0")
 	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,app.Mount,"0")
 	log.Println("result3", string(res1))
 	if err != nil {
