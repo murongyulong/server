@@ -313,7 +313,7 @@ func DockerRun(app *model.App, ip string) {
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
 	opts := docker.CreateContainerOptions{
-		Name:name,
+		Name:app.Name,
 		Config: &docker.Config{
 			Memory: int64(app.Memory * 1024 * 1024),
 			ExposedPorts: map[docker.Port]struct{}{
