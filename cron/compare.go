@@ -335,8 +335,8 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
-	if container = nil {
-   	 log.Println("空指针")
+	if err != nil {
+   	 log.Println(err)
 	}
 //	bytess := []byte(str)
 //	res1 := []byte{}
