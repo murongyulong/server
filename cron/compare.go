@@ -335,6 +335,9 @@ func DockerRun(app *model.App, ip string) {
 	}
 
 	container, err := client.CreateContainer(opts)
+	if container != nil {
+   	 log.Println("空指针")
+	}
 //	bytess := []byte(str)
 //	res1 := []byte{}
 //	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
