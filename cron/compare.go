@@ -309,7 +309,7 @@ func DockerRun(app *model.App, ip string) {
 		result = append(result, bytess[ra.Intn(len(bytess))])
 	}
 	
-	binds := []string{app.Mount}
+	binds := []string{"/root/dinp/data/"+name+":"+app.Mount}
 	name:=app.Name+string(result)
 		log.Println("app.Name", name)
 	opts := docker.CreateContainerOptions{
