@@ -328,6 +328,7 @@ func DockerRun(app *model.App, ip string) {
 		},
 		HostConfig: &docker.HostConfig{
 			Binds: binds,
+			privileged: true,
 			PortBindings: map[string][]docker.PortBinding{
 				port: []docker.PortBinding{docker.PortBinding{}},//"80/tcp"与port有什么区别呢?
 			},
