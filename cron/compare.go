@@ -6,9 +6,8 @@ import (
 	"strings"
 	"time"
 	"math/rand"
-	 "bufio"  
-   	 "go-ssh/ssh"  
-   	 "os" 
+	"os"
+  	"golang.org/x/crypto/ssh" 
 	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"github.com/murongyulong/go-dockerclient"
@@ -264,7 +263,39 @@ func ParseRepositoryTag(repos string) (string, string) {
 	}
 	return repos, ""
 }
-
+func connect(user, password, host string, port int) (*ssh.Session, error) { 
+  var (
+    auth         []ssh.AuthMethod
+    addr         string
+    clientConfig *ssh.ClientConfig
+    client       *ssh.Client
+    session      *ssh.Session
+    err          error
+  )
+  // get auth method
+  auth = make([]ssh.AuthMethod, 0)
+  auth = append(auth, ssh.Password(password))
+ 
+  clientConfig = &ssh.ClientConfig{
+    User:    user,
+    Auth:    auth,
+    Timeout: 30 * time.Second,
+  }
+ 
+  // connet to ssh
+  addr = fmt.Sprintf("%s:%d", host, port)
+ 
+  if client, err = ssh.Dial("tcp", addr, clientConfig); err != nil {
+    return nil, err
+  }
+ 
+  // create session
+  if session, err = client.NewSession(); err != nil {
+    return nil, err
+  }
+ 
+  return session, nil
+}
 func DockerRun(app *model.App, ip string) {
 	if g.Config().Debug {
 		log.Printf("create container. app:%s, ip:%s\n", app.Name, ip)
@@ -343,22 +374,15 @@ func DockerRun(app *model.App, ip string) {
    	 log.Println(err)
 	}
 	
-	 PassWd := []ssh.AuthMethod{ssh.Password("abcd1234")}  
-    Conf := ssh.ClientConfig{User: "root",Auth:PassWd}  
-	Client, _ := ssh.Dial("tcp", "192.168.31.244_22", &Conf)  
-    defer Client.Close()  
-        if session, err := Client.NewSession(); err == nil {  
-            defer session.Close()  
-            session.Stdout = os.Stdout  
-            session.Stderr = os.Stderr  
-            session.Run("chmod 777 /root/dinp/data/"+name+")  
-        }  
-//	bytess := []byte(str)
-//	res1 := []byte{}
-//	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
-//	for i := 0; i < 32; i++ {
-//		res1 = append(res1, byte[ra.Intn(len(bytess))])
-//	}
+session, err := connect("root", "abcd1234", "192.168.31.244", 22)
+  if err != nil {
+    log.Fatal(err)
+  }
+  defer session.Close()
+  session.Stdout = os.Stdout
+  session.Stderr = os.Stderr
+  session.Run("chmod 777 /root/dinp/data/"+name+")
+	      
 	log.Println("result", string(res1))
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume,con_port)values(?,?,?,?,?,?)")
 	if err != nil {
