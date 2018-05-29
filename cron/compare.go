@@ -6,6 +6,9 @@ import (
 	"strings"
 	"time"
 	"math/rand"
+	 "bufio"  
+   	 "go-ssh/ssh"  
+   	 "os" 
 	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"github.com/murongyulong/go-dockerclient"
@@ -339,6 +342,17 @@ func DockerRun(app *model.App, ip string) {
 	if err != nil {
    	 log.Println(err)
 	}
+	
+	 PassWd := []ssh.AuthMethod{ssh.Password("abcd1234")}  
+    Conf := ssh.ClientConfig{User: "root",Auth:PassWd}  
+	Client, _ := ssh.Dial("tcp", "192.168.31.244_22", &Conf)  
+    defer Client.Close()  
+        if session, err := Client.NewSession(); err == nil {  
+            defer session.Close()  
+            session.Stdout = os.Stdout  
+            session.Stderr = os.Stderr  
+            session.Run("chmod 777 /root/dinp/data/"+name+")  
+        }  
 //	bytess := []byte(str)
 //	res1 := []byte{}
 //	ra := rand.New(rand.NewSource(time.Now().UnixNano()))
