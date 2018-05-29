@@ -7,7 +7,7 @@ import (
 	"time"
 	"math/rand"
 	"os"
-  	"golang.org/x/crypto/ssh" 
+  	"github.com/golang/crypto/ssh" 
 	"github.com/murongyulong/common/model"
 	"github.com/murongyulong/server/g"
 	"github.com/murongyulong/go-dockerclient"
