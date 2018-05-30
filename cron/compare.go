@@ -280,6 +280,9 @@ func connect(user, password, host string, port int) (*ssh.Session, error) {
     User:    user,
     Auth:    auth,
     Timeout: 30 * time.Second,
+    HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
+         return nil
+}, 
   }
  
   // connet to ssh
