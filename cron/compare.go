@@ -381,9 +381,7 @@ session, err := connect("root", "abcd1234", "192.168.31.244", 22)
   defer session.Close()
   session.Stdout = os.Stdout
   session.Stderr = os.Stderr
-  session.Run("chmod 777 /root/dinp/data/"+name+")
-	      
-	log.Println("result", string(res1))
+  session.Run("chmod 777 /root/dinp/data/"+name)
 stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_name,con_volume,con_port)values(?,?,?,?,?,?)")
 	if err != nil {
    	 log.Println(err)
