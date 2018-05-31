@@ -442,7 +442,15 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 			port: []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
-
+			session, err := connect("root", "abcd1234", "192.168.31.244", 22)
+  	if err != nil {
+   	 log.Fatal(err)
+  	}
+ 	 defer session.Close()
+ 	 session.Stdout = os.Stdout
+  	session.Stderr = os.Stderr
+		session.Run("chmod +w /root/dinp/data/"+name)
+		log.Println("0","0")
 	if err != nil {
 		log.Println("[ERROR] docker.StartContainer fail:", err)
 		g.UpdateAppStatus(app, model.AppStatus_StartContainerFail)
@@ -452,12 +460,5 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	if g.Config().Debug {
 		log.Println("start container success:-)")
 	}
-		session, err := connect("root", "abcd1234", "192.168.31.244", 22)
-  	if err != nil {
-   	 log.Fatal(err)
-  	}
- 	 defer session.Close()
- 	 session.Stdout = os.Stdout
-  	session.Stderr = os.Stderr
-		session.Run("chmod +w /root/dinp/data/"+name)
+
 }
