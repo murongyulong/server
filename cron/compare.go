@@ -399,14 +399,8 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	}
     fmt.Println(affect)
 	//	session.Run("ll /root/dinp/data/"+name)
-	session, err := connect("root", "abcd1234", "192.168.31.244", 22)
-  	if err != nil {
-   	 log.Fatal(err)
-  	}
- 	 defer session.Close()
- 	 session.Stdout = os.Stdout
-  	session.Stderr = os.Stderr
-	session.Run("chmod +w /root/dinp/data/"+name)
+
+
 	if err != nil {
    	 log.Println(err)
 	}
@@ -458,4 +452,12 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	if g.Config().Debug {
 		log.Println("start container success:-)")
 	}
+		session, err := connect("root", "abcd1234", "192.168.31.244", 22)
+  	if err != nil {
+   	 log.Fatal(err)
+  	}
+ 	 defer session.Close()
+ 	 session.Stdout = os.Stdout
+  	session.Stderr = os.Stderr
+		session.Run("chmod +w /root/dinp/data/"+name)
 }
