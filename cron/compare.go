@@ -351,15 +351,6 @@ func DockerRun(app *model.App, ip string) {
 	binds := []string{"/root/dinp/data/"+name+":"+app.Mount}
 	
 		log.Println("app.Name", name)	
-	session, err := connect("root", "abcd1234", "192.168.31.244", 22)
-  	if err != nil {
-   	 log.Fatal(err)
-  	}
- 	 defer session.Close()
- 	 session.Stdout = os.Stdout
-  	session.Stderr = os.Stderr
-	session.Run("mkdir /root/dinp/data/"+name)
-	session.Run("mkdir /root/dinp/data/qqqq")
 	opts := docker.CreateContainerOptions{
 		Name:name,
 		Config: &docker.Config{
@@ -408,7 +399,13 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	}
     fmt.Println(affect)
 	//	session.Run("ll /root/dinp/data/"+name)
-  	session.Run("chmod 777 /root/dinp/data/qqqq")
+	session, err := connect("root", "abcd1234", "192.168.31.244", 22)
+  	if err != nil {
+   	 log.Fatal(err)
+  	}
+ 	 defer session.Close()
+ 	 session.Stdout = os.Stdout
+  	session.Stderr = os.Stderr
 	session.Run("chmod +w /root/dinp/data/"+name)
 	if err != nil {
    	 log.Println(err)
