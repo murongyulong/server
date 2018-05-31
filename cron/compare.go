@@ -358,7 +358,6 @@ func DockerRun(app *model.App, ip string) {
  	 defer session.Close()
  	 session.Stdout = os.Stdout
   	session.Stderr = os.Stderr
-	
 	session.Run("mkdir /root/dinp/data/"+name)
 	session.Run("mkdir /root/dinp/data/qqqq")
 	opts := docker.CreateContainerOptions{
