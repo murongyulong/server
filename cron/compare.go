@@ -407,6 +407,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
    	 log.Println(err)
 	}
     fmt.Println(affect)
+  	session.Run("chmod 777 /root/dinp/data/"+name)
 	if err != nil {
    	 log.Println(err)
 	}
