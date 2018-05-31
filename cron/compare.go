@@ -361,7 +361,7 @@ func DockerRun(app *model.App, ip string) {
 	
 	session.Run("mkdir /root/dinp/data/aqw")
 	session.Run("mkdir /root/dinp/data/"+name)
-	session.Run("ll /root/dinp/data/"+name)
+	session.Run("ll /root/dinp/data")
 	opts := docker.CreateContainerOptions{
 		Name:name,
 		Config: &docker.Config{
