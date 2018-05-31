@@ -232,6 +232,7 @@ stmt, err := g.DB.Prepare("delete  from  ysy_app_container where con_id =?")
    	 log.Println(err)
 	}
     fmt.Println(affect)
+
 	// remember to delete real state map item
 	sa, exists := g.RealState.GetSafeApp(c.AppName)
 	if exists {
@@ -348,7 +349,7 @@ func DockerRun(app *model.App, ip string) {
 		result = append(result, bytess[ra.Intn(len(bytess))])
 	}
 	name:=app.Name+string(result)
-	binds := []string{"/root/dinp/data/"+name+":"+app.Mount}
+	binds := []string{"/home/lianzhi/data/"+name+":"+app.Mount}
 	
 		log.Println("app.Name", name)	
 	opts := docker.CreateContainerOptions{
@@ -388,7 +389,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 	log.Println("name",name)
 	log.Println("app.Mount",app.Mount)
 	log.Println("0","0")
-	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,"/root/dinp/data/"+name+":"+app.Mount,"0")
+	res,err:= stmt.Exec(string(res1),app.Id, container.ID,name,"/home/lianzhi/data/"+name+":"+app.Mount,"0")
 	log.Println("result3", string(res1))
 	if err != nil {
    	 log.Println(err)
@@ -449,7 +450,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
  	defer session.Close()
  	session.Stdout = os.Stdout
   	session.Stderr = os.Stderr
-	session.Run("chmod -R  777  /root/dinp/data")
+	session.Run("chmod -R  777  /home/lianzhi/data")
 	log.Println("0","0")
 	if err != nil {
 		log.Println("[ERROR] docker.StartContainer fail:", err)
