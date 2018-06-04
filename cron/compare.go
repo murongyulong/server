@@ -213,7 +213,7 @@ func dropContainer(c *model.Container) {
 		return
 	}
 	 var staus string
-	err = db.QueryRow("select con_port from ysy_app_container where  con_id=?",c.Id ).Scan(&staus)
+	err = g.DB.QueryRow("select con_port from ysy_app_container where  con_id=?",c.Id ).Scan(&staus)
 	if staus == "1" {
 	err = client.RemoveContainer(docker.RemoveContainerOptions{ID: c.Id, Force: true})
 	if err != nil {
