@@ -214,8 +214,12 @@ func dropContainer(c *model.Container) {
 		log.Println("docker.NewClient fail:", err)
 		return
 	}
-	var num String
-	rows := g.DB.QueryRow("select app_status from ysy_app_status where app_id = ?", app.Id);
+		var id string
+	rows := g.DB.QueryRow("select app_id  from  ysy_app_container where con_id =?", c.Id);
+    	rows.Scan(&id)
+    fmt.Println(id)
+	var num string
+	rows := g.DB.QueryRow("select app_status from ysy_app_status where app_id = ?", id);
     	rows.Scan(&num)
     fmt.Println(num)
 		if num=="0"{
