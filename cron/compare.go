@@ -133,6 +133,7 @@ func compareState() {
 			}
 			dropContainers(sa.Containers(), nowCnt-app.InstanceCnt)
 		}
+				
 	}
 }
 
@@ -189,22 +190,12 @@ func dropContainers(cs []*model.Container, cnt int) {
 	if cnt == 0 {
 		return
 	}
-
-	//done := 0
-	var num int
-	rows := g.DB.QueryRow("select count(*) from ysy_app_container where con_port = ?", "1");
-    	rows.Scan(&num)
-    fmt.Println(num)
-	done :=num
+	done := 0
 	for _, c := range cs {
-		var status string 
-		rows := g.DB.QueryRow("select con_port from ysy_app_container where con_id = ?", c.Id);
-    		rows.Scan(&status)
-    fmt.Println(status)
-		if status=="0"{
+	
 		dropContainer(c)
 			done++
-		}
+	
 		if done == cnt {
 			break
 		}
@@ -223,7 +214,11 @@ func dropContainer(c *model.Container) {
 		log.Println("docker.NewClient fail:", err)
 		return
 	}
-
+	var num String
+	rows := g.DB.QueryRow("select app_status from ysy_app_status where app_id = ?", app.Id);
+    	rows.Scan(&num)
+    fmt.Println(num)
+		if num=="0"{
 
 	err = client.RemoveContainer(docker.RemoveContainerOptions{ID: c.Id, Force: true})
 	if err != nil {
@@ -250,6 +245,9 @@ stmt, err := g.DB.Prepare("delete  from  ysy_app_container where con_id =?")
 	if exists {
 		sa.DeleteContainer(c)
 	}
+	}else{
+		log.Println("启动容器不能删除", c.Id)		
+		}
 }
 
 func BuildEnvArray(envVars map[string]string) []string {
