@@ -190,10 +190,11 @@ func dropContainers(cs []*model.Container, cnt int) {
 		return
 	}
 
-	done := 0
+	//done := 0
 	var num int
 	rows := g.DB.QueryRow("select count(*) from ysy_app_container where con_port = ?", "1");
     	rows.Scan(num)
+	
 	done :=num
 	for _, c := range cs {
 		var status string 
