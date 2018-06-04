@@ -191,9 +191,18 @@ func dropContainers(cs []*model.Container, cnt int) {
 	}
 
 	done := 0
+	var num int
+	rows := db.QueryRow("select count(*) from ysy_app_container where con_port = ?", "1");
+    	rows.Scan(num)
+	done :=num
 	for _, c := range cs {
+		var status string 
+		rows := db.QueryRow("select con_port from ysy_app_container where con_id = ?", c.Id);
+    		rows.Scan(status)
+		if status=="0"{
 		dropContainer(c)
-		done++
+			done++
+		}
 		if done == cnt {
 			break
 		}
@@ -212,9 +221,8 @@ func dropContainer(c *model.Container) {
 		log.Println("docker.NewClient fail:", err)
 		return
 	}
-	 var staus string
-	err = g.DB.QueryRow("select con_port from ysy_app_container where  con_id=?",c.Id ).Scan(&staus)
-	if staus == "1" {
+
+
 	err = client.RemoveContainer(docker.RemoveContainerOptions{ID: c.Id, Force: true})
 	if err != nil {
 		log.Println("docker.RemoveContainer fail:", err)
@@ -239,9 +247,6 @@ stmt, err := g.DB.Prepare("delete  from  ysy_app_container where con_id =?")
 	sa, exists := g.RealState.GetSafeApp(c.AppName)
 	if exists {
 		sa.DeleteContainer(c)
-	}
-	}else {
-		 log.Println(c.Id,"已经停止不能删除")
 	}
 }
 
