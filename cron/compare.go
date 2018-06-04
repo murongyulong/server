@@ -219,8 +219,8 @@ func dropContainer(c *model.Container) {
     	rows.Scan(&id)
     fmt.Println(id)
 	var num string
-	rows := g.DB.QueryRow("select app_status from ysy_app_status where app_id = ?", id);
-    	rows.Scan(&num)
+	rows1 := g.DB.QueryRow("select app_status from ysy_app_status where app_id = ?", id);
+    	rows1.Scan(&num)
     fmt.Println(num)
 		if num=="0"{
 
