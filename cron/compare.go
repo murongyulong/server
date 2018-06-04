@@ -192,12 +192,12 @@ func dropContainers(cs []*model.Container, cnt int) {
 
 	done := 0
 	var num int
-	rows := db.QueryRow("select count(*) from ysy_app_container where con_port = ?", "1");
+	rows := g.DB.QueryRow("select count(*) from ysy_app_container where con_port = ?", "1");
     	rows.Scan(num)
 	done :=num
 	for _, c := range cs {
 		var status string 
-		rows := db.QueryRow("select con_port from ysy_app_container where con_id = ?", c.Id);
+		rows := g.DB.QueryRow("select con_port from ysy_app_container where con_id = ?", c.Id);
     		rows.Scan(status)
 		if status=="0"{
 		dropContainer(c)
