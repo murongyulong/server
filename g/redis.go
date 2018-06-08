@@ -12,7 +12,7 @@ func InitRedisConnPool() {
 		MaxIdle:     Config().Redis.MaxIdle,
 		IdleTimeout: 240 * time.Second,
 		Dial: func() (redis.Conn, error) {
-			return redis.Dial("tcp", Config().Redis.Dsn,redis.DialPassword("abcd1234"))
+			return redis.Dial("tcp", Config().Redis.Dsn,redis.DialPassword(Config().Redis.PassWord))
 		},
 	}
 }
