@@ -17,6 +17,7 @@ type RedisConfig struct {
 	MaxIdle     int    `json:"maxIdle"`
 	RsPrefix    string `json:"rsPrefix"`
 	CNamePrefix string `json:"cnamePrefix"`
+	Password    string `json:"password"`
 }
 
 type DBConfig struct {
