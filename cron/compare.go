@@ -216,7 +216,7 @@ func dropContainer(c *model.Container) {
 		return
 	}*/
 	addr := fmt.Sprintf("http://%s:%d", c.Ip, g.Config().DockerPort)
-	cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	/*cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
 	cert := string(cert_temp)
 	if err != nil {
 	     fmt.Print(err)
@@ -233,8 +233,8 @@ func dropContainer(c *model.Container) {
 	if err != nil {
 	     fmt.Print(err)
 	}
-	fmt.Println(ca)
-	client, err := docker.NewTLSClient(addr,cert,key,ca)
+	fmt.Println(ca)*/
+	client, err := docker.NewTLSClient(addr,"/go/src/github.com/dinp/cert.pem","/go/src/github.com/dinp/key.pem","/go/src/github.com/dinp/ca.pem")
 	if err != nil {
 		log.Println("docker.NewClient fail:", err)
 		return
@@ -368,7 +368,7 @@ func DockerRun(app *model.App, ip string) {
 
 	client, err := docker.NewClient(addr)*/
 	addr := fmt.Sprintf("http://%s:%d", ip, g.Config().DockerPort)
-	cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	/*cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
 	cert := string(cert_temp)
 	if err != nil {
 	     fmt.Print(err)
@@ -385,8 +385,8 @@ func DockerRun(app *model.App, ip string) {
 	if err != nil {
 	     fmt.Print(err)
 	}
-	fmt.Println(ca)
-	client, err := docker.NewTLSClient(addr,cert,key,ca)
+	fmt.Println(ca)*/
+	client, err := docker.NewTLSClient(addr,"/go/src/github.com/dinp/cert.pem","/go/src/github.com/dinp/key.pem","/go/src/github.com/dinp/ca.pem")
 	if err != nil {
 		log.Println("docker.NewClient fail:", err)
 		return
