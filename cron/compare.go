@@ -216,17 +216,20 @@ func dropContainer(c *model.Container) {
 		return
 	}*/
 	addr := fmt.Sprintf("http://%s:%d", c.Ip, g.Config().DockerPort)
-	cert, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	cert := string(cert_temp)
 	if err != nil {
 	     fmt.Print(err)
 	}
 	fmt.Println(cert)
-	key, err := ioutil.ReadFile("/go/src/github.com/dinp/key.pem")
+	key_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/key.pem")
+	key := string(key_temp)
 	if err != nil {
 	     fmt.Print(err)
 	}
 	fmt.Println(key)
-	ca, err := ioutil.ReadFile("/go/src/github.com/dinp/ca.pem")
+	ca_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/ca.pem")
+	ca := string(ca_temp)
 	if err != nil {
 	     fmt.Print(err)
 	}
