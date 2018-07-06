@@ -8,7 +8,6 @@ import (
 	"math/rand"
 	"os"
 	"net"
-	"io/ioutil"
 	
   	"golang.org/x/crypto/ssh" 
 	"github.com/murongyulong/common/model"
