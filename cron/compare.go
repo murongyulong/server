@@ -362,9 +362,36 @@ func DockerRun(app *model.App, ip string) {
 	}
 	envVars["SCRIBE_PORT"] = fmt.Sprintf("%d", g.Config().Scribe.Port)
 
-	addr := fmt.Sprintf("http://%s:%d", ip, g.Config().DockerPort)
+	
+	/*----------------------------edit by lianzhi20180706------------------------------------*/
+	/*addr := fmt.Sprintf("http://%s:%d", ip, g.Config().DockerPort)
 
-	client, err := docker.NewClient(addr)
+	client, err := docker.NewClient(addr)*/
+	addr := fmt.Sprintf("http://%s:%d", ip, g.Config().DockerPort)
+	cert_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	cert := string(cert_temp)
+	if err != nil {
+	     fmt.Print(err)
+	}
+	fmt.Println(cert)
+	key_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/key.pem")
+	key := string(key_temp)
+	if err != nil {
+	     fmt.Print(err)
+	}
+	fmt.Println(key)
+	ca_temp, err := ioutil.ReadFile("/go/src/github.com/dinp/ca.pem")
+	ca := string(ca_temp)
+	if err != nil {
+	     fmt.Print(err)
+	}
+	fmt.Println(ca)
+	client, err := docker.NewTLSClient(addr,cert,key,ca)
+	if err != nil {
+		log.Println("docker.NewClient fail:", err)
+		return
+	}
+	/*----------------------------edit by lianzhi20180706------------------------------------*/
 	if err != nil {
 		log.Println("[ERROR] docker.NewClient fail:", err)
 		return
