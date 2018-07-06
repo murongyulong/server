@@ -8,6 +8,7 @@ import (
 	"math/rand"
 	"os"
 	"net"
+	"io/ioutil"
 	
   	"golang.org/x/crypto/ssh" 
 	"github.com/murongyulong/common/model"
@@ -207,13 +208,35 @@ func dropContainer(c *model.Container) {
 	if g.Config().Debug {
 		log.Println("drop container:", c)
 	}
-
-	addr := fmt.Sprintf("http://%s:%d", c.Ip, g.Config().DockerPort)
+	/*----------------------------edit by lianzhi20180706------------------------------------*/
+	/*addr := fmt.Sprintf("http://%s:%d", c.Ip, g.Config().DockerPort)
 	client, err := docker.NewClient(addr)
 	if err != nil {
 		log.Println("docker.NewClient fail:", err)
 		return
+	}*/
+	addr := fmt.Sprintf("http://%s:%d", c.Ip, g.Config().DockerPort)
+	cert, err := ioutil.ReadFile("/go/src/github.com/dinp/cert.pem")
+	if err != nil {
+	     fmt.Print(err)
 	}
+	fmt.Println(cert)
+	key, err := ioutil.ReadFile("/go/src/github.com/dinp/key.pem")
+	if err != nil {
+	     fmt.Print(err)
+	}
+	fmt.Println(key)
+	ca, err := ioutil.ReadFile("/go/src/github.com/dinp/ca.pem")
+	if err != nil {
+	     fmt.Print(err)
+	}
+	fmt.Println(ca)
+	client, err := docker.NewTLSClient(addr,cert,key,ca)
+	if err != nil {
+		log.Println("docker.NewClient fail:", err)
+		return
+	}
+	/*----------------------------edit by lianzhi20180706------------------------------------*/
 		var id string
 	rows := g.DB.QueryRow("select app_id  from  ysy_app_container where con_id =?", c.Id);
     	rows.Scan(&id)
