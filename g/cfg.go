@@ -99,6 +99,7 @@ func ParseConfig(cfg string) {
 		}
 
 		c.LocalIp = localIps[0]
+		log.Println("c.LocalIp:", c.LocalIp)
 	}
 
 	if c.Http.Addr == "" {
