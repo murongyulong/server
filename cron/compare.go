@@ -510,7 +510,7 @@ stmt, err := g.DB.Prepare("insert into ysy_app_container(id,app_id,con_id,con_na
 			port: []docker.PortBinding{docker.PortBinding{}},
 		},
 	})
-	session, err := connect("root", "123456", "192.168.31.72", 22)
+	session, err := connect("root", "Lin_1234", "10.17.0.244", 22)
 	if err != nil {
    	 log.Fatal(err)
   	}
